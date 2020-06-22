@@ -8,14 +8,14 @@
 
   <Identity
     Name="9924836e-d7cf-493b-82f1-df238f8fb7c7"
-    Publisher="CN=fenya"
+    Publisher="CN=Mayhem"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="9924836e-d7cf-493b-82f1-df238f8fb7c7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>aPublish</DisplayName>
-    <PublisherDisplayName>fenya</PublisherDisplayName>
+    <PublisherDisplayName>Mayhem</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
