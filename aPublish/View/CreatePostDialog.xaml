@@ -1,0 +1,26 @@
+﻿<ContentDialog
+    x:Class="aPublish.View.CreatePostDialog"
+    x:Name="createPostDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:aPublish.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Новая публикация"
+    PrimaryButtonText="Отправить"
+    SecondaryButtonText="Отмена"
+    PrimaryButtonClick="SendButtonClick"
+    SecondaryButtonClick="CancelButtonClick"
+    IsPrimaryButtonEnabled="False"
+    DefaultButton="Primary">
+
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBox x:Name="postTitile" PlaceholderText="Заголовок" MaxLength="64" Margin="0,8,0,0" TextChanged="OnTextChanged" Width="400"/>
+            <TextBox x:Name="postContent" PlaceholderText="Содержание" Height="250" Width="400" Margin="0,10,0,0" AcceptsReturn="True" TextChanged="OnTextChanged"/>
+            <TextBox x:Name="postAuthor" PlaceholderText="Автор (необязательно)" Width="400" MaxLength="64" Margin="0,10,0,0" />
+            <TextBox x:Name="postLang" PlaceholderText="Язык (необязательно)" MaxLength="2" Margin="0,10,0,0" />
+        </StackPanel>
+    </Grid>
+</ContentDialog>

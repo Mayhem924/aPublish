@@ -15,8 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+using aPublish.View;
+using Windows.UI.Popups;
 
 namespace aPublish
 {
@@ -29,6 +29,8 @@ namespace aPublish
             this.InitializeComponent();
             posts = new List<Page>();
 
+            CreatePostDialog.PostCreated += OnPostCreated;
+
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
         }
@@ -38,10 +40,10 @@ namespace aPublish
             HttpClient client = new HttpClient();
             var url = "http://apublish-test.herokuapp.com/";
 
-            var webResponse = await client.GetAsync($"{url}/api/0");
-            webResponse.EnsureSuccessStatusCode();
+            var response = await client.GetAsync($"{url}/api/0");
+            response.EnsureSuccessStatusCode();
 
-            string posts = await webResponse.Content.ReadAsStringAsync();
+            string posts = await response.Content.ReadAsStringAsync();
             
             if (posts != null)
             {
@@ -59,6 +61,19 @@ namespace aPublish
         private void ClearPostsList(object sender, RoutedEventArgs e)
         {
             PostsList.Items.Clear();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreatePostDialog createPostDialog = new CreatePostDialog();
+            await createPostDialog.ShowAsync();
+        }
+
+        private void OnPostCreated(object sender, RoutedEventArgs args)
+        {
+            ClearPostsList(this, args);
+            GetPosts(this, args);
+            PostSendMessage.IsOpen = true;
         }
     }
 }

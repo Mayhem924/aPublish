@@ -40,7 +40,7 @@ namespace aPublish
         public string Lang { get; set; }
 
         [JsonProperty("tags")]
-        public List<object> Tags { get; set; }
+        public List<string> Tags { get; set; }
     }
 
     public partial class Page
