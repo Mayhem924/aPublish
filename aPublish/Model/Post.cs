@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace aPublish
 {
@@ -18,7 +16,7 @@ namespace aPublish
         public bool HasNextPage { get; set; }
     }
 
-    public partial class Post
+    public class Post
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -47,7 +45,7 @@ namespace aPublish
     {
         public static Page FromJson(string json)
         {
-            return JsonConvert.DeserializeObject<Page>(json, aPublish.Converter.Settings);
+            return JsonConvert.DeserializeObject<Page>(json, Converter.Settings);
         }
     }
 
@@ -55,7 +53,7 @@ namespace aPublish
     {
         public static string ToJson(this Page self)
         {
-            return JsonConvert.SerializeObject(self, aPublish.Converter.Settings);
+            return JsonConvert.SerializeObject(self, Converter.Settings);
         }
     }
 

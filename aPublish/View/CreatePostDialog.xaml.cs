@@ -23,8 +23,7 @@ namespace aPublish.View
 
     public sealed partial class CreatePostDialog : ContentDialog
     {
-        public delegate Task PostCreated();
-        public static event PostCreated OnPostCreated;
+        public static event RoutedEventHandler OnPostCreated;
 
         PostData post = new PostData();
 
@@ -52,7 +51,7 @@ namespace aPublish.View
 
                 if (statusCode.ToString().Equals("Created", StringComparison.OrdinalIgnoreCase))
                 {
-                    OnPostCreated?.Invoke();
+                    OnPostCreated?.Invoke(this, new RoutedEventArgs());
                 }
             }
         }

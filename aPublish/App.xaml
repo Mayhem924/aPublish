@@ -2,7 +2,8 @@
     x:Class="aPublish.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:aPublish">
+    xmlns:local="using:aPublish"
+    xmlns:model="using:aPublish.Model">
     
     <Application.Resources>
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />

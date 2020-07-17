@@ -1,82 +1,139 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using aPublish.View;
-using Windows.UI.Popups;
+using muxc = Microsoft.UI.Xaml.Controls;
 
-namespace aPublish
+namespace aPublish.View
 {
     public sealed partial class MainPage : Windows.UI.Xaml.Controls.Page
     {
-        List<Page> posts;
+        private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
+        {
+            ("newpost", typeof(HomePage)),
+            ("home", typeof(HomePage)),
+            ("favorites", typeof(FavoritesPage)),
+            ("settings", typeof(SettingsPage)),
+        };
 
         public MainPage()
         {
             this.InitializeComponent();
-            posts = new List<Page>();
-
-            CreatePostDialog.OnPostCreated += OnPostCreated;
 
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
         }
 
-        private async void GetPosts(object sender, RoutedEventArgs e)
+        private void NavigationView_OnLoaded(object sender, RoutedEventArgs e)
         {
-            HttpClient client = new HttpClient();
-            var url = "http://apublish-test.herokuapp.com/";
+            ContentFrame.Navigated += OnNavigated;
 
-            var response = await client.GetAsync($"{url}/api/0");
-            response.EnsureSuccessStatusCode();
+            NavigationView.SelectedItem = NavigationView.MenuItems[0];
 
-            string posts = await response.Content.ReadAsStringAsync();
-            
-            if (posts != null)
+            Navigate("home", new EntranceNavigationTransitionInfo());
+
+            var goBack = new KeyboardAccelerator { Key = Windows.System.VirtualKey.GoBack };
+            goBack.Invoked += BackInvoked;
+
+            this.KeyboardAccelerators.Add(goBack);
+
+            var altLeft = new KeyboardAccelerator
             {
-                var post = Page.FromJson(posts);
+                Key = Windows.System.VirtualKey.Left,
+                Modifiers = Windows.System.VirtualKeyModifiers.Menu
+            };
 
-                foreach (var item in post.Posts)
-                {
-                    PostsList.Items?.Add(item);
-                }
+            altLeft.Invoked += BackInvoked;
+            this.KeyboardAccelerators.Add(altLeft);
+        }
+
+        private void NavigationView_OnSelectionChanged(muxc.NavigationView sender, muxc.NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.IsSettingsSelected)
+            {
+                Navigate("settings", args.RecommendedNavigationTransitionInfo);
             }
-            
-            client.Dispose();
+            else if (args.SelectedItemContainer != null)
+            {
+                var navItemTag = args.SelectedItemContainer.Tag.ToString();
+                Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
+            }
         }
 
-        private void ClearPostsList(object sender, RoutedEventArgs e)
+        private void OnNavigated(object sender, NavigationEventArgs args)
         {
-            PostsList.Items?.Clear();
+            NavigationView.IsBackEnabled = ContentFrame.CanGoBack;
+
+            if (ContentFrame.SourcePageType == typeof(SettingsPage))
+            {
+                NavigationView.SelectedItem = (muxc.NavigationViewItem) NavigationView.SelectedItem;
+                NavigationView.Header = "Settings";
+            }
+            else if (ContentFrame.SourcePageType != null)
+            {
+                var item = _pages.FirstOrDefault(p => p.Page == args.SourcePageType);
+
+                NavigationView.SelectedItem = NavigationView.MenuItems
+                    .OfType<muxc.NavigationViewItem>()
+                    .First(n => n.Tag.Equals(item.Tag));
+
+                NavigationView.Header =
+                    ((muxc.NavigationViewItem) NavigationView.SelectedItem)?.Content?.ToString();
+            }
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private bool OnBackRequested()
         {
-            CreatePostDialog createPostDialog = new CreatePostDialog();
-            await createPostDialog.ShowAsync();
+            if (!ContentFrame.CanGoBack)
+                return false;
+
+            if (NavigationView.IsPaneOpen &&
+                (NavigationView.DisplayMode == muxc.NavigationViewDisplayMode.Compact ||
+                 NavigationView.DisplayMode == muxc.NavigationViewDisplayMode.Minimal))
+                return false;
+
+            ContentFrame.GoBack();
+            return true;
         }
 
-        private async Task OnPostCreated()
+        private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            var emptyArgs = new RoutedEventArgs();
+            OnBackRequested();
+            args.Handled = true;
+        }
 
-            ClearPostsList(this, emptyArgs);
-            GetPosts(this, emptyArgs);
-            PostSendMessage.IsOpen = true;
+        private void Navigate(string itemTag, NavigationTransitionInfo transitionInfo)
+        {
+            Type _page = null;
+
+            if (itemTag.Equals("settings"))
+            {
+                _page = typeof(SettingsPage);
+            }
+            else
+            {
+                var item = _pages.FirstOrDefault(p => p.Tag.Equals(itemTag));
+                _page = item.Page;
+            }
+
+            var prevPageType = ContentFrame.CurrentSourcePageType;
+
+            if (!(_page is null))
+               // && prevPageType.GetType().Equals(_page.GetType()))
+            {
+                ContentFrame.Navigate(_page, null, transitionInfo);
+            }
+        }
+
+        private void NavigationView_OnBackRequested(muxc.NavigationView sender, muxc.NavigationViewBackRequestedEventArgs args)
+        {
+            OnBackRequested();
         }
     }
 }
