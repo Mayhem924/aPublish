@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace aPublish.View
 {
@@ -18,19 +18,19 @@ namespace aPublish.View
         public string content;
         public string author;
         public string lang;
-        public List<string> tags { get; set; }
+        public List<string> tags;
     }
 
     public sealed partial class CreatePostDialog : ContentDialog
     {
-        public static event RoutedEventHandler PostCreated;
+        public delegate Task PostCreated();
+        public static event PostCreated OnPostCreated;
 
-        PostData post;
+        PostData post = new PostData();
 
         public CreatePostDialog()
         {
             this.InitializeComponent();
-            post = new PostData();
         }
 
         private async void SendButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -50,9 +50,9 @@ namespace aPublish.View
                 var response = await httpClient.PostAsync(url, httpContent);
                 var statusCode = response.StatusCode;
 
-                if (statusCode.ToString() == "Created")
+                if (statusCode.ToString().Equals("Created", StringComparison.OrdinalIgnoreCase))
                 {
-                    PostCreated?.Invoke(this, new RoutedEventArgs());
+                    OnPostCreated?.Invoke();
                 }
             }
         }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -29,7 +30,7 @@ namespace aPublish
             this.InitializeComponent();
             posts = new List<Page>();
 
-            CreatePostDialog.PostCreated += OnPostCreated;
+            CreatePostDialog.OnPostCreated += OnPostCreated;
 
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
@@ -51,7 +52,7 @@ namespace aPublish
 
                 foreach (var item in post.Posts)
                 {
-                    PostsList.Items.Add(item);
+                    PostsList.Items?.Add(item);
                 }
             }
             
@@ -60,7 +61,7 @@ namespace aPublish
 
         private void ClearPostsList(object sender, RoutedEventArgs e)
         {
-            PostsList.Items.Clear();
+            PostsList.Items?.Clear();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -69,10 +70,12 @@ namespace aPublish
             await createPostDialog.ShowAsync();
         }
 
-        private void OnPostCreated(object sender, RoutedEventArgs args)
+        private async Task OnPostCreated()
         {
-            ClearPostsList(this, args);
-            GetPosts(this, args);
+            var emptyArgs = new RoutedEventArgs();
+
+            ClearPostsList(this, emptyArgs);
+            GetPosts(this, emptyArgs);
             PostSendMessage.IsOpen = true;
         }
     }
