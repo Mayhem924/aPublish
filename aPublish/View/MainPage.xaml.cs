@@ -14,9 +14,13 @@ namespace aPublish.View
 {
     public sealed partial class MainPage : Windows.UI.Xaml.Controls.Page
     {
+        public static event Action OnNewClick;
+        public static event Action OnClearClick;
+        public static event Action OnLoadClick;
+
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
-            ("newpost", typeof(HomePage)),
+            ("newpost", null),
             ("home", typeof(HomePage)),
             ("favorites", typeof(FavoritesPage)),
             ("settings", typeof(SettingsPage)),
@@ -25,9 +29,6 @@ namespace aPublish.View
         public MainPage()
         {
             this.InitializeComponent();
-
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
         }
 
         private void NavigationView_OnLoaded(object sender, RoutedEventArgs e)
@@ -83,8 +84,8 @@ namespace aPublish.View
                     .OfType<muxc.NavigationViewItem>()
                     .First(n => n.Tag.Equals(item.Tag));
 
-                NavigationView.Header =
-                    ((muxc.NavigationViewItem) NavigationView.SelectedItem)?.Content?.ToString();
+                //NavigationView.Header =
+                //    ((muxc.NavigationViewItem) NavigationView.SelectedItem)?.Content?.ToString();
             }
         }
 
@@ -131,9 +132,33 @@ namespace aPublish.View
             }
         }
 
+        private void InfoBar_Click(object sender, RoutedEventArgs e)
+        {
+            //PostSendMessage1.IsOpen = !PostSendMessage1.IsOpen;
+        }
+
         private void NavigationView_OnBackRequested(muxc.NavigationView sender, muxc.NavigationViewBackRequestedEventArgs args)
         {
             OnBackRequested();
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is AppBarButton button)
+            {
+                switch (button.Label)
+                {
+                    case "New":
+                        OnNewClick?.Invoke();
+                        break;
+                    case "Clear":
+                        OnClearClick?.Invoke();
+                        break;
+                    case "Load":
+                        OnLoadClick?.Invoke();
+                        break;
+                }
+            }
         }
     }
 }

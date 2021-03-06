@@ -9,24 +9,31 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <muxc:NavigationView x:Name="NavigationView"
-                             Header="Список публикаций"
-                             IsTitleBarAutoPaddingEnabled="False"
-                             Loaded="NavigationView_OnLoaded"
-                             BackRequested="NavigationView_OnBackRequested"
-                             SelectionChanged="NavigationView_OnSelectionChanged">
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Tag="newpost" Icon="Add" Content="Новый пост" IsEnabled="False"/>
-                <muxc:NavigationViewItemSeparator/>
-                <muxc:NavigationViewItem Tag="home" Icon="Home" Content="Главная"/>
-                <muxc:NavigationViewItem Tag="authors" Icon="People" Content="Авторы"/>
-                <muxc:NavigationViewItem Tag="favorites" Icon="OutlineStar" Content="Избранное"/>
-            </muxc:NavigationView.MenuItems>
+    <muxc:NavigationView x:Name="NavigationView"
+                         Loaded="NavigationView_OnLoaded"
+                         BackRequested="NavigationView_OnBackRequested"
+                         SelectionChanged="NavigationView_OnSelectionChanged">
 
-            <ScrollViewer>
-                <Frame x:Name="ContentFrame" Padding="12,0,12,24"/>
-            </ScrollViewer>
-        </muxc:NavigationView>
-    </Grid>
+        <muxc:NavigationView.MenuItems>
+            <muxc:NavigationViewItem Tag="newpost" Icon="Add" Content="Новый пост" IsEnabled="False"/>
+            <muxc:NavigationViewItemSeparator/>
+            <muxc:NavigationViewItem Tag="home" Icon="Home" Content="Главная"/>
+            <muxc:NavigationViewItem Tag="authors" Icon="People" Content="Авторы" IsEnabled="False"/>
+            <muxc:NavigationViewItem Tag="favorites" Icon="OutlineStar" Content="Избранное"/>
+        </muxc:NavigationView.MenuItems>
+
+        <ScrollViewer>
+            <StackPanel>
+                <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                    <AppBarButton Icon="Add" Label="New" Click="AppBarButton_Click"/>
+                    <AppBarButton Icon="Clear" Label="Clear" Click="AppBarButton_Click"/>
+                    <AppBarButton Icon="Download" Label="Load" Click="AppBarButton_Click"/>
+                    <AppBarButton Icon="Comment" Label="InfoBar" Click="InfoBar_Click"/>
+                </CommandBar>
+
+                <Frame x:Name="ContentFrame" Padding="12,0,0,12"/>
+            </StackPanel>
+            
+        </ScrollViewer>
+    </muxc:NavigationView>
 </Page>

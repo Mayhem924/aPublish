@@ -10,36 +10,19 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <StackPanel Orientation="Horizontal" Margin="12,0,12,12">
-            <ListView x:Name="PostsList" Width="650" HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="aPublish:Post" >
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBlock Text="{x:Bind Path=Title}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBlock Text="{x:Bind Path=Author}" Margin="12,0,0,0" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            </StackPanel>
-                            <TextBlock Text="{x:Bind Path=Content}" Height="50" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBlock Text="{x:Bind Path=CreatedDate}" Margin="0,5,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"/>
-                            <MenuFlyoutSeparator HorizontalAlignment="Left" Width="450"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="12,0,0,0">
-                <Button Content="Получить Посты" VerticalAlignment="Top" Click="GetPosts" Width="130"/>
-                <Button Content="Очистить список" Margin="0,5,0,0" VerticalAlignment="Top" Click="ButtonBase_OnClick" Width="130"/>
-                <Button Content="Новый пост" Margin="0,5,0,0" Click="Button_Click" Width="130"/>
-            </StackPanel>
-        </StackPanel>
-
-        <muxc:TeachingTip
-                    x:Name="PostSendMessage"                   
-	                Title="      Пост успешно отправлен!"
-	                Subtitle=""
-	                PreferredPlacement="Auto"                                              
-	                PlacementMargin="20"
-	                IsLightDismissEnabled="True"/>
-    </Grid>
+    <ListView x:Name="PostsList" Width="800" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="aPublish:Post" >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <TextBlock Text="{x:Bind Path=Title}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBlock Text="{x:Bind Path=Author}" Margin="12,0,0,0" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    </StackPanel>
+                    <TextBlock Text="{x:Bind Path=Content}" Height="50" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="{x:Bind Path=CreatedDate}" Margin="0,5,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"/>
+                    <MenuFlyoutSeparator HorizontalAlignment="Left" Width="450"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </Page>
