@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:aPublish.View"
+    xmlns:model="using:aPublish.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -12,7 +13,7 @@
 
     <ListView x:Name="PostsList" Width="800" HorizontalAlignment="Center" VerticalAlignment="Stretch">
         <ListView.ItemTemplate>
-            <DataTemplate x:DataType="aPublish:Post" >
+            <DataTemplate x:DataType="model:Post">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <TextBlock Text="{x:Bind Path=Title}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Top"/>

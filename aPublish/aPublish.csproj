@@ -96,6 +96,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="JsonDateConverter.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\CreatePostDialogViewModel.cs" />
+    <Compile Include="ViewModel\HomePageViewModel.cs" />
+    <Compile Include="ViewModel\MainPageViewModel.cs" />
     <Compile Include="View\CreatePostDialog.xaml.cs">
       <DependentUpon>CreatePostDialog.xaml</DependentUpon>
     </Compile>
@@ -161,7 +165,7 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.0</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

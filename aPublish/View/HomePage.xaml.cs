@@ -7,11 +7,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace aPublish.View
 {
-    public sealed partial class HomePage : Windows.UI.Xaml.Controls.Page
+    public sealed partial class HomePage : Page
     {
         public HomePage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             MainPage.OnClearClick += ButtonBase_OnClick;
             MainPage.OnNewClick += Button_Click;
@@ -32,7 +32,7 @@ namespace aPublish.View
 
             if (posts != null)
             {
-                var post = Page.FromJson(posts);
+                var post = Model.Page.FromJson(posts);
 
                 foreach (var item in post.Posts)
                 {

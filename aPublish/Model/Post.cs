@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace aPublish
+namespace aPublish.Model
 {
     public partial class Page
     {

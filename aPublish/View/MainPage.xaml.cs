@@ -12,7 +12,7 @@ using muxc = Microsoft.UI.Xaml.Controls;
 
 namespace aPublish.View
 {
-    public sealed partial class MainPage : Windows.UI.Xaml.Controls.Page
+    public sealed partial class MainPage : Page
     {
         public static event Action OnNewClick;
         public static event Action OnClearClick;
@@ -23,7 +23,7 @@ namespace aPublish.View
             ("newpost", null),
             ("home", typeof(HomePage)),
             ("favorites", typeof(FavoritesPage)),
-            ("settings", typeof(SettingsPage)),
+            ("settings", null),
         };
 
         public MainPage()

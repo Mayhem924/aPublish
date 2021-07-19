@@ -9,11 +9,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Язык приложения" VerticalAlignment="Center"/>
-                <ComboBox x:Name="langBox" Margin="8,0,0,0"/>
-            </StackPanel>
-        </StackPanel>
+
     </Grid>
 </Page>

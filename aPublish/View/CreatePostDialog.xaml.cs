@@ -29,7 +29,7 @@ namespace aPublish.View
 
         public CreatePostDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void SendButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
